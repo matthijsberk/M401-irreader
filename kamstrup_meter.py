@@ -90,11 +90,10 @@ class kamstrup(object):
 
 		try:
 			self.serial = serial.Serial(
-				port = self.serial_port,
-				baudrate = 1200,
-				parity = serial.PARITY_NONE,
-				stopbits = serial.STOPBITS_TWO,
-				bytesize = serial.EIGHTBITS,
+				port = '/dev/ttyUSB1',
+				parity = serial.PARITY_EVEN,
+				stopbits = serial.STOPBITS_ONE,
+				bytesize = serial.SEVENBITS,
 				timeout = 2.0)
 		except serial.SerialException as e:
 			log.exception(e)
@@ -126,35 +125,15 @@ class kamstrup(object):
 		log.debug('Closed serial port')
 		
 	def rd (self):
-		receivedByte = self.serial.read(size=1)
-		if len(receivedByte) == 0:
-			log.debug("Rx timeout")
-			return None
-		byte = bytearray(receivedByte)[0]
+		mc401.baudrate = 1200
+		mc401.flushInput()
+		byte = mc401.read(87).split()
 		return byte
 
 	def send (self, prefix, msg):
-		message = bytearray(msg)
-		command = bytearray()
-		
-		message.append(0)
-		message.append(0)
-		
-		checksum = crc_1021(message)
-		
-		message[-2] = checksum >> 8
-		message[-1] = checksum & 0xff
-		
-		command.append(prefix)
-		for byte in message:
-			if byte in escapes:
-				command.append(0x1b)
-				command.append(byte ^ 0xff)
-			else:
-				command.append(byte)
-		command.append(0x0d)
 		try:
-			self.serial.write(command)
+			mc401.baudrate = 300
+			self.serial.write(bytes("/#1",'UTF-8'))
 		except serial.SerialTimeoutException as e:
 			log.exception(e.message)
 

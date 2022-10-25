@@ -21,6 +21,9 @@ import yaml
 from kamstrup_meter import kamstrup
 from mqtt_handler import MqqtHandler
 from logging.handlers import TimedRotatingFileHandler
+import serial
+import json
+from time import sleep
 
 
 log = logging.getLogger("log")
@@ -66,7 +69,36 @@ class KamstrupDaemon(multiprocessing.Process):
 		self.mqtt_handler.connect()
 		self.mqtt_handler.loop_start()
 
-		self.heat_meter = kamstrup(serial_cfg["com_port"], kamstrup_cfg["parameters"])
+		mc401 = serial.Serial(port='/dev/ttyUSB1', bytesize=serial.SEVENBITS, parity=serial.PARITY_EVEN, stopbits=serial.STOPBITS_ONE, timeout=2)
+
+		mc401.baudrate = 300
+		mc401.write(bytes("/#1", 'UTF-8'))
+		mc401.flush()
+		sleep(1)
+		mc401.baudrate = 1200
+		mc401.flushInput()
+		data = mc401.read(87)
+		try:
+  		print(data[0], data[1], data[3], data[4], data[5], data[6], data[7])
+		except IndexError:
+  		pass
+
+		s = []
+		for t in data.split():
+   			try:
+        		s.append(float(t))
+    		except ValueError:
+        		pass
+		print(s)
+
+		energy = s[0] / 1000
+		volume = s[1] / 1000
+		temp_1 = s[3] / 100
+		temp_2 = s[4] / 100
+		temp_diff = s[5] / 100
+
+		MQTT_MSG=json.dumps({"energy": energy, "volume": volume, "temp1": temp_1, "temp2": temp_2, "tempdiff": temp_diff, "flow" : 1});
+		print(MQTT_MSG)
 	
 	def signal_handler(self, signal, handler):
 		self.running = False
@@ -78,7 +110,7 @@ class KamstrupDaemon(multiprocessing.Process):
 
 	def run(self):
 		while self.running:
-			values = self.heat_meter.run()
+			values = MQTT_MSG
 			self.mqtt_handler.publish("values", str(values).replace("'", "\""))
 			
 			log.info("Waiting {} minute(s) for the next meter readout".format(self.poll_interval))
