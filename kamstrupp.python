@@ -1,0 +1,20 @@
+import serial
+from time import sleep
+ 
+mc401 = serial.Serial(port='/dev/ttyUSB1', bytesize=serial.SEVENBITS, parity=serial.PARITY_EVEN, stopbits=serial.STOPBITS_ONE, timeout=2)
+ 
+while True:
+  mc401.baudrate = 300
+  mc401.write(bytes("/#1",'UTF-8'))
+  mc401.flush()
+  sleep(1)
+  mc401.baudrate = 1200
+  mc401.flushInput()
+  data = mc401.read(87).split()
+  try:
+    print(data[0], data[1], data[3], data[4], data[5], data[6], data[7])
+  except IndexError:
+    pass
+  sleep(26)
+ 
+mc401.close()
