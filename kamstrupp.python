@@ -1,5 +1,4 @@
 import serial
-from time import sleep
  
 mc401 = serial.Serial(port='/dev/ttyUSB1', bytesize=serial.SEVENBITS, parity=serial.PARITY_EVEN, stopbits=serial.STOPBITS_ONE, timeout=2)
  
