@@ -1,0 +1,19 @@
+mqtt:
+    host: 192.168.0.133
+    port: 1883
+    client: kamstrup
+    topic: kamstrup
+    qos: 0
+    retain: False
+    authentication: False
+    username: mosquito
+    password: mosquito
+serial_device:
+    com_port: /dev/ttyUSB1
+kamstrup:
+    parameters:
+    - energy
+    - volume
+    - temp1
+    - temp2
+    poll_interval: 60
