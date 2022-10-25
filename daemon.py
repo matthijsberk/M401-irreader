@@ -78,18 +78,12 @@ class KamstrupDaemon(multiprocessing.Process):
 		mc401.baudrate = 1200
 		mc401.flushInput()
 		data = mc401.read(87)
-		try:
-  		print(data[0], data[1], data[3], data[4], data[5], data[6], data[7])
-		except IndexError:
-  		pass
-
 		s = []
 		for t in data.split():
    			try:
         		s.append(float(t))
     		except ValueError:
         		pass
-		print(s)
 
 		energy = s[0] / 1000
 		volume = s[1] / 1000
