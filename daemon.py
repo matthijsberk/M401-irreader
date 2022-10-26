@@ -77,7 +77,7 @@ class KamstrupDaemon(multiprocessing.Process):
 
 	def run(self):
 		while self.running:
-			mc401 = serial.Serial(port='/dev/ttyUSB1', bytesize=serial.SEVENBITS, parity=serial.PARITY_EVEN, stopbits=serial.STOPBITS_ONE, timeout=2)
+			mc401 = serial.Serial(port='/dev/ttyUSB0', bytesize=serial.SEVENBITS, parity=serial.PARITY_EVEN, stopbits=serial.STOPBITS_ONE, timeout=2)
 			mc401.baudrate = 300
 			mc401.write(bytes("/#1", 'UTF-8'))
 			mc401.flush()
