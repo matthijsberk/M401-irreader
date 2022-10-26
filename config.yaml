@@ -16,4 +16,4 @@ kamstrup:
     - volume
     - temp1
     - temp2
-    poll_interval: 60
+    poll_interval: 180

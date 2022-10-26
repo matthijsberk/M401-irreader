@@ -99,8 +99,9 @@ class KamstrupDaemon(multiprocessing.Process):
 			temp_1 = s[3] / 100
 			temp_2 = s[4] / 100
 			temp_diff = s[5] / 100
+			flow = s[7]
 
-			MQTT_MSG=json.dumps({"energy": energy, "volume": volume, "temp1": temp_1, "temp2": temp_2, "tempdiff": temp_diff, "flow" : 1});
+			MQTT_MSG=json.dumps({"energy": energy, "volume": volume, "temp1": temp_1, "temp2": temp_2, "tempdiff": temp_diff, "flow" : flow});
 			print(MQTT_MSG)	
 		
 			values = MQTT_MSG
