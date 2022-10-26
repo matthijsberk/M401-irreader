@@ -25,7 +25,6 @@ import serial
 import json
 from time import sleep
 
-MQTT_MSG = 0
 log = logging.getLogger("log")
 log.setLevel(logging.DEBUG)
 
@@ -101,10 +100,7 @@ class KamstrupDaemon(multiprocessing.Process):
 			temp_diff = s[5] / 100
 			flow = s[7]
 
-			MQTT_MSG=json.dumps({"energy": energy, "volume": volume, "temp1": temp_1, "temp2": temp_2, "tempdiff": temp_diff, "flow" : flow});
-			print(MQTT_MSG)	
-		
-			values = MQTT_MSG
+			values=json.dumps({"energy": energy, "volume": volume, "temp1": temp_1, "temp2": temp_2, "tempdiff": temp_diff, "flow" : flow});
 			self.mqtt_handler.publish("values", str(values).replace("'", "\""))
 			
 			log.info("Waiting {} minute(s) for the next meter readout".format(self.poll_interval))
