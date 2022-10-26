@@ -4,8 +4,8 @@ After=multi-user.target
 
 [Service]
 Type=simple
-WorkingDirectory=/M401-IRREADER
-ExecStart=/usr/bin/python3 /M401-IRREADER/daemon.py
+WorkingDirectory=/home/pi/M401-irreader/
+ExecStart=/usr/bin/python3 /home/pi/M401-irreader/daemon.py
 StandardOutput=null
 StandardError=journal
 Restart=always
