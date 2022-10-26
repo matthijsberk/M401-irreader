@@ -5,7 +5,7 @@ mqtt:
     topic: kamstrup
     qos: 0
     retain: False
-    authentication: False
+    authentication: True
     username: mosquito
     password: mosquito
 serial_device:
