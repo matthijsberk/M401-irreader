@@ -25,7 +25,7 @@ import serial
 import json
 from time import sleep
 
-
+MQTT_MSG = 0
 log = logging.getLogger("log")
 log.setLevel(logging.DEBUG)
 
