@@ -81,12 +81,10 @@ class KamstrupDaemon(multiprocessing.Process):
 
 		s = []
 		for t in data.split():
-  		    try:
-    	        s.append(float(t))
-  		    except ValueError:
-   		        pass
-		print(s)
-
+			try:
+				s.append(float(t))
+			except ValueError:
+				pass
 		energy = s[0] / 1000
 		volume = s[1] / 1000
 		temp_1 = s[3] / 100
