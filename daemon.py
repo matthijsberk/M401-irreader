@@ -69,6 +69,7 @@ class KamstrupDaemon(multiprocessing.Process):
 		self.mqtt_handler.connect()
 		self.mqtt_handler.loop_start()
 
+	def readmc401():	
 		mc401 = serial.Serial(port='/dev/ttyUSB1', bytesize=serial.SEVENBITS, parity=serial.PARITY_EVEN, stopbits=serial.STOPBITS_ONE, timeout=2)
 		mc401.baudrate = 300
 		mc401.write(bytes("/#1", 'UTF-8'))
@@ -85,6 +86,7 @@ class KamstrupDaemon(multiprocessing.Process):
   		    except ValueError:
    		        pass
 		print(s)
+
 		energy = s[0] / 1000
 		volume = s[1] / 1000
 		temp_1 = s[3] / 100
@@ -104,7 +106,8 @@ class KamstrupDaemon(multiprocessing.Process):
 
 	def run(self):
 		while self.running:
-			values = self.heat_meter.run()
+			self.readmc401()
+			values = MQTT_MSG
 			self.mqtt_handler.publish("values", str(values).replace("'", "\""))
 			
 			log.info("Waiting {} minute(s) for the next meter readout".format(self.poll_interval))
