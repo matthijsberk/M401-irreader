@@ -105,7 +105,7 @@ class KamstrupDaemon(multiprocessing.Process):
 
 	def run(self):
 		while self.running:
-			self.readmc401(MQTT_MSG)
+			self.readmc401()
 			values = MQTT_MSG
 			self.mqtt_handler.publish("values", str(values).replace("'", "\""))
 			
