@@ -4,8 +4,8 @@ After=multi-user.target
 
 [Service]
 Type=simple
-WorkingDirectory=/opt/kamstrup
-ExecStart=/usr/bin/python3 /opt/kamstrup/daemon.py
+WorkingDirectory=/M401-IRREADER
+ExecStart=/usr/bin/python3 /M401-IRREADER/daemon.py
 StandardOutput=null
 StandardError=journal
 Restart=always
