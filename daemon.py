@@ -84,6 +84,7 @@ class KamstrupDaemon(multiprocessing.Process):
 			try:
 				s.append(float(t))
 			except ValueError:
+				print(error)
 				pass
 		energy = s[0] / 1000
 		volume = s[1] / 1000
