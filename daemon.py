@@ -94,6 +94,7 @@ class KamstrupDaemon(multiprocessing.Process):
 
 		MQTT_MSG=json.dumps({"energy": energy, "volume": volume, "temp1": temp_1, "temp2": temp_2, "tempdiff": temp_diff, "flow" : 1});
 		print(MQTT_MSG)	
+		return MQTT_MSG
 
 	def signal_handler(self, signal, handler):
 		self.running = False
@@ -104,7 +105,7 @@ class KamstrupDaemon(multiprocessing.Process):
 
 	def run(self):
 		while self.running:
-			self.readmc401(self)
+			self.readmc401(MQTT_MSG)
 			values = MQTT_MSG
 			self.mqtt_handler.publish("values", str(values).replace("'", "\""))
 			
