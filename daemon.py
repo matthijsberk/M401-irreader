@@ -69,7 +69,7 @@ class KamstrupDaemon(multiprocessing.Process):
 		self.mqtt_handler.connect()
 		self.mqtt_handler.loop_start()
 
-	def readmc401():	
+	def readmc401(self):	
 		mc401 = serial.Serial(port='/dev/ttyUSB1', bytesize=serial.SEVENBITS, parity=serial.PARITY_EVEN, stopbits=serial.STOPBITS_ONE, timeout=2)
 		mc401.baudrate = 300
 		mc401.write(bytes("/#1", 'UTF-8'))
