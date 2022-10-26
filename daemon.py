@@ -97,7 +97,6 @@ class KamstrupDaemon(multiprocessing.Process):
 
 	def signal_handler(self, signal, handler):
 		self.running = False
-		self.heat_meter.close()
 		self.mqtt_handler.loop_stop()
 		self.mqtt_handler.disconnect()
 		log.info('stopping daemon')
