@@ -69,9 +69,6 @@ class KamstrupDaemon(multiprocessing.Process):
 		self.mqtt_handler.connect()
 		self.mqtt_handler.loop_start()
 
-	def readmc401(self):	
-
-
 	def signal_handler(self, signal, handler):
 		self.running = False
 		self.mqtt_handler.loop_stop()
